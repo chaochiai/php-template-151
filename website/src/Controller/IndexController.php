@@ -1,18 +1,18 @@
 <?php
 
-namespace ihrname\Controller;
+namespace chaochiai\Controller;
 
-use ihrname\SimpleTemplateEngine;
+use chaochiai\SimpleTemplateEngine;
 
 class IndexController 
 {
   /**
-   * @var ihrname\SimpleTemplateEngine Template engines to render output
+   * @var chaochiai\SimpleTemplateEngine Template engines to render output
    */
   private $template;
   
   /**
-   * @param ihrname\SimpleTemplateEngine
+   * @param chaochiai\SimpleTemplateEngine
    */
   public function __construct(SimpleTemplateEngine $template)
   {
