@@ -14,16 +14,14 @@ class LogInController
 	/*
 	 * @var \PDO database connection
 	 * */
-	private $pdo;
 	private $logInService;
 
 	/**
 	 * @param chaochiai\SimpleTemplateEngine
 	 */
-	public function __construct(SimpleTemplateEngine $template, \PDO $pdo, LogInServiceInterface $logInService)
+	public function __construct(SimpleTemplateEngine $template, LogInServiceInterface $logInService)
 	{
 		$this->template = $template;
-		$this->pdo = $pdo;
 		$this->logInService = $logInService;
 	}
 
