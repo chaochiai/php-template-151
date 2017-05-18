@@ -6,16 +6,30 @@ error_reporting(E_ALL);
 session_start();
 require_once("../vendor/autoload.php");
 $config = parse_ini_file(__DIR__."/../config.ini", true);
-var_dump($config["database"]["password"]);
+
 $factory = new chaochiai\Factory($config);
 
 
 switch($_SERVER["REQUEST_URI"]) {
 	case "/":
 		$factory->getIndexController()->homepage();
+		$factory->getMailer()->send(
+				Swift_Message::newInstance("Subject")
+				->setFrom(["chantalochiaiit@gmail.com" => "Your Name"])
+				->setTo(["foobar@gmail.com" => "Foos Name"])
+				->setBody("Here is the message itself")
+				);
 		break;
 	case "/testroute":
 		echo "Test";
+		break;
+	case "/register":
+		$ctr = $factory->getRegisterController();
+		if($_SERVER['REQUEST_METHOD'] === "GET"){
+			$ctr->showRegister();
+		} else 	{
+			$ctr->register($_POST);
+		}
 		break;
 	case "/login":
 		$ctr = $factory->getLogInController();

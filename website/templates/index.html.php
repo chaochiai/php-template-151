@@ -1,9 +1,6 @@
-<html>
-<head>
-<title>Log in Form</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-</head>
-<body>
+<?php 
+	include 'header.html.php';
+?>
 	<h1>Log in</h1>
 	<div class="row">
 		<div class="col-xs-1 col-sm-6 col-lg-4">
@@ -44,6 +41,6 @@
 		</div>
 	</div>
 	<button class="btn btn-success">My Value</button>
-	
-</body>
-</html>
+<?php 
+	include 'footer.html.php';
+?>
