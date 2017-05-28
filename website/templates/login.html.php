@@ -1,16 +1,23 @@
-<html>
-<head>
-<title>Log in Form</title>
-</head>
-<body>
+<?php 
+	include 'header.html.php';
+?>
 	<h1>Log in</h1>
-	<form method="post">
-		<label>Email:</label></br>
-		<input type="text" name="email" /></br>
-		<label>Password:</label></br>
+	<?php 
+		if(isset($_SESSION["registerCompleted"]))
+		{
+			echo "Thank you for choosing our website as your diet partner! You may now log in with your account";			
+		}
+	?>
+	<form method="post" class="loginform">
+		<label>Username:</label></br>
+		<input type="text" name="username" /></br>
 		
+		<label>Password:</label></br>
 		<input type="password" name="password" /></br></br>
+
 		<input type="submit" value="Log in" name="LogIn" />
 	</form>
-</body>
-</html>
+
+<?php 
+	include 'footer.html.php';
+?>

@@ -11,13 +11,13 @@ class LogInPDOService implements LogInServiceInterface
 	
 	public function Authentication($username, $password)
 	{
-		$stmt = $this->pdo->prepare("SELECT * FROM User WHERE email=? AND password=?");
+		$stmt = $this->pdo->prepare("SELECT * FROM User WHERE username=? AND password=?");
 		$stmt->bindValue(1, $username);
 		$stmt->bindValue(2, $password);
 		$stmt->execute();
 			
 		if($stmt->rowCount() == 1){
-			$_SESSION["email"] = $username;
+			$_SESSION["login"] = $username;
 			return true;
 		} else{
 			return false;

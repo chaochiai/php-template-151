@@ -29,17 +29,17 @@ class LogInController
 		echo $this->template->render("login.html.php");
 	}
 	public function logIn(array $data) {
-		if(!array_key_exists("email", $data) OR !array_key_exists("password", $data)){
+		if(!array_key_exists("username", $data) OR !array_key_exists("password", $data)){
 			$this->showLogIn();
 			return ;
 		} 
-		if($this->logInService->Authentication($data["email"], $data["password"]))
+		if($this->logInService->Authentication($data["username"], $data["password"]))
 		{
-			$_SESSION["email"] = $data["email"];
+			$_SESSION["login"] = $data["username"];
 			header("Location: /");
 		}
 		else{			
-			echo $this->template->render("login.html.php", ["email" => $data["email"]]);
+			echo $this->template->render("login.html.php", ["username" => $data["username"]]);
 		}
 	}
 }

@@ -26,20 +26,21 @@ class RegisterController
 	}
 
 	public function showRegister() {
-		echo $this->template->render("login.html.php");
+		echo $this->template->render("register.html.php");
 	}
 	public function register(array $data) {
-		if(!array_key_exists("email", $data) OR !array_key_exists("password", $data)){
-			$this->showLogIn();
-			return ;
+		if(!array_key_exists("firstname", $data) OR !array_key_exists("lastname", $data) OR !array_key_exists("username", $data) OR !array_key_exists("email", $data) OR !array_key_exists("password", $data) OR !array_key_exists("gender", $data) OR !array_key_exists("weight", $data) OR !array_key_exists("height", $data) OR !array_key_exists("goalWeight", $data)){
+			$this->showRegister();
+			return $data;
 		}
-		if($this->logInService->Authentication($data["email"], $data["password"]))
+		
+		if($this->registerService->Register($data["firstname"], $data["lastname"], $data["username"], $data["email"], $data["password"], $data["gender"], $data["weight"], $data["height"], $data["goalWeight"]))
 		{
-			$_SESSION["email"] = $data["email"];
-			header("Location: /");
+			$_SESSION["registerCompleted"] = 1;
+			header("Location: /login");
 		}
 		else{
-			echo $this->template->render("login.html.php", ["email" => $data["email"]]);
+			echo $this->template->render("register.html.php", ["email" => $data["email"]]);
 		}
 	}
 }
