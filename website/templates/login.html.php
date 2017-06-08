@@ -5,8 +5,9 @@
 	<?php 
 		if(isset($_SESSION["registerCompleted"]))
 		{
-			echo "Thank you for choosing our website as your diet partner! You may now log in with your account";			
+			echo "Thank you for choosing our website as your diet partner! You may log in with your account";			
 		}
+		
 	?>
 	<form method="post" class="loginform">
 		<label>Username:</label></br>

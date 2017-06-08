@@ -3,8 +3,6 @@
 		<title>Log in Form</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 		<link rel="stylesheet" href="stylesheet.css" />
-		<script src="content/js/jquery.min.js"></script>
-		<script src="content/js/bootstrap.min.js"></script>
 	</head>
 	<body>
 		<nav class="navbar navbar-default">
@@ -45,8 +43,8 @@
 						<li class="dropdown">
 					          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $_SESSION['login']; ?> <span class="caret"></span></a>
 					          <ul class="dropdown-menu">
-						            <li><a href="#">Edit account</a></li>
-						            <li><a href="#">Logout</a></li>
+						            <li><a href="/personalInformation">My Account</a></li>
+						            <li><a href="/logout">Logout</a></li>
 					          </ul>
 				        </li>
 						<?php

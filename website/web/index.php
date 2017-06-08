@@ -39,6 +39,13 @@ switch($_SERVER["REQUEST_URI"]) {
 			$ctr->logIn($_POST);
 		}
 		break;
+	case "/logout":
+		$ctr = $factory->getLogInController();
+		if($_SERVER['REQUEST_METHOD'] === "GET"){
+			$ctr->logOut();
+		}
+		break;
+	
 	default:
 		$matches = [];
 		if(preg_match("|^/hello/(.+)$|", $_SERVER["REQUEST_URI"], $matches)) {

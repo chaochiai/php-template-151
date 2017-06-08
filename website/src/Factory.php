@@ -37,8 +37,8 @@ class Factory {
 	{
 		return \Swift_Mailer::newInstance(
 				\Swift_SmtpTransport::newInstance("smtp.gmail.com", 465, "ssl")
-				->setUsername("chantalochiaiit@gmail.com")
-				->setPassword("deathnote07")
+				->setUsername("@gmail.com")
+				->setPassword("")
 				);
 	}
 	public function getRegisterService()
@@ -48,5 +48,13 @@ class Factory {
 	public function getRegisterController()
 	{
 		return new Controller\RegisterController($this->getTemplateEngine(), $this->getRegisterService());
+	}
+	public function getAccountService()
+	{
+		return new Service\Account\AccountPDOService($this->getPDO());
+	}
+	public function getAccountController()
+	{
+		return new Controller\AccountController($this->getTemplateEngine(), $this->getAccountService());
 	}
 }
