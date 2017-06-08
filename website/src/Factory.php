@@ -57,4 +57,12 @@ class Factory {
 	{
 		return new Controller\AccountController($this->getTemplateEngine(), $this->getAccountService());
 	}
+	public function getDietService()
+	{
+		return new Service\Diet\DietPDOService($this->getPDO());
+	}
+	public function getDietController()
+	{
+		return new Controller\DietController($this->getTemplateEngine(), $this->getDietService());
+	}
 }

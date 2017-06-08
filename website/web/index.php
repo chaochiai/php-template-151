@@ -39,13 +39,27 @@ switch($_SERVER["REQUEST_URI"]) {
 			$ctr->logIn($_POST);
 		}
 		break;
+	case "/personalInformation":
+		$ctr = $factory->getAccountController();
+		if($_SERVER['REQUEST_METHOD'] === "GET"){
+			$ctr->showPersonalInformation();
+		} else 	{
+			$ctr->logIn($_POST);
+		}
+		break;
+	
 	case "/logout":
 		$ctr = $factory->getLogInController();
 		if($_SERVER['REQUEST_METHOD'] === "GET"){
 			$ctr->logOut();
 		}
 		break;
-	
+	case "/today":
+		$ctr = $factory->getDietController();
+		if($_SERVER['REQUEST_METHOD'] === "GET"){
+			$ctr->showToday();
+		}
+		break;
 	default:
 		$matches = [];
 		if(preg_match("|^/hello/(.+)$|", $_SERVER["REQUEST_URI"], $matches)) {

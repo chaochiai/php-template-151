@@ -3,7 +3,7 @@
 namespace chaochiai\Controller;
 
 use chaochiai\SimpleTemplateEngine;
-use chaochiai\Service\Account\AccountServiceInterface;
+use chaochiai\Service\Diet\DietServiceInterface;
 
 class AccountController
 {
@@ -14,24 +14,19 @@ class AccountController
 	/*
 	 * @var \PDO database connection
 	 * */
-	private $accountService;
+	private $dietService;
 
 	/**
 	 * @param chaochiai\SimpleTemplateEngine
 	 */
-	public function __construct(SimpleTemplateEngine $template, AccountServiceInterface $accountService)
+	public function __construct(SimpleTemplateEngine $template, DietServiceInterface $dietService)
 	{
 		$this->template = $template;
-		$this->accountService = $accountService;
+		$this->dietService = $dietService;
 	}
 
-	public function showEditAccount() {
-		echo $this->template->render("editAccount.html.php");
-	}
-	public function showPersonalInformation() {
-		//get data
-		//show it
-		echo $this->template->render("personalInformation.html.php");
+	public function showToday() {
+		echo $this->template->render("today.html.php");
 	}
 	public function editAccount(array $data) {
 		if(!array_key_exists("username", $data) OR !array_key_exists("password", $data)){
