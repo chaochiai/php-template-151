@@ -58,6 +58,8 @@ switch($_SERVER["REQUEST_URI"]) {
 		$ctr = $factory->getDietController();
 		if($_SERVER['REQUEST_METHOD'] === "GET"){
 			$ctr->showToday();
+		}else 	{
+			$ctr->recordMeal($_POST);
 		}
 		break;
 	default:

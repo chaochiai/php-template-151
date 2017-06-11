@@ -1,28 +1,33 @@
 <?php
 include 'header.html.php';
+//, g:i a
+$today = date("F j, Y");
 ?>
-<h1>Personal Information</h1>
+<h1><?php echo $today; ?></h1>
+<h2><?php echo $weightLeft . "  kilos left!"; ?></h2>
+<fieldset>
+	<legend>Breakfast</legend>
+	<?php if(!isset($_POST['addRecordMeal'])){?>
+	<form method="post" class="todayForm">
+		<input type="hidden" value="add" name="add"/>
+		<input type="submit" value="add" name="addRecordMeal" />
+	</form>
+	<?php }else{?>
+	<form method="post" class="todayForm">
+		<input type="hidden" value="Breakfast" name="recordMealType"/>
+		<div>
+			<label>Food name:</label></br>
+			<input type="text" name="foodname" /></br>
+		</div>
+		<div>
+			<label>Calories:</label></br>
+			<input type="text" name="calories" /></br>
+		</div>
+		<input type="submit" value="record" name="recordMeal" />
+	</form>
+	<?php }?>
+</fieldset>
 
-
-<form method="post">
-	<h2>Personal Details</h2>
-	
-	<label>Name:</label></br>
-	
-	<label>Email:</label></br>
-	
-	<label>Gender:</label></br>
-	
-	<label>Weight:</label></br>
-	
-	<label>Height:</label></br>
-	
-	<h2>Goal</h2>
-	
-	<label>Goal Weight:</label></br>
-	
-<input type="submit" value="Edit" name="EditPersonalInformation" />
-</form>
 <?php 
 	include 'footer.html.php';
 ?>
