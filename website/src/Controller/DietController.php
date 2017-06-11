@@ -27,33 +27,55 @@ class DietController
 
 	public function showToday() {
 		$weightLeft = $this->dietService->WeightLeft();
-		//$breakfastRecord = $this->dietService->checkRecordedMeal("Breakfast");
+		
 		echo $this->template->render("today.html.php", ["weightLeft" => $weightLeft]);
 	}
 	public function showTodayWithParam($foodName, $calories) {
 		$weightLeft = $this->dietService->WeightLeft();
-		echo $this->template->render("today.html.php", ["weightLeft" => $weightLeft], ["foodname" => $foodName], ["calories" => $calories]);
+		$data['weightLeft'] = $weightLeft;
+		$data['foodname'] = $foodName;
+		$data['calories'] = $calories;
+		echo $this->template->render("today.html.php", $data);
 	}
 	public function recordMeal(array $data) {
 		if(array_key_exists("add", $data)){
 			$this->showToday();
 			return ;
 		}
-		if(array_key_exists("recordMeal", $data)){
-			if(!isset($data["foodname"]) OR !isset($data["calories"])){
-				print($_POST);
-				exit();
-				$_POST['addRecordMeal'] = "add";
+		if(array_key_exists("recordMeal", $data)){	
+			
+			if(empty($data["foodname"]) OR empty($data["calories"])){
+				switch($data["recordMealType"])
+				{
+					case "Breakfast":
+						$_POST['addRecordMealB'] = "add";
+						break;
+					case "Lunch":
+						$_POST['addRecordMealL'] = "add";
+						break;
+					case "Dinner":
+						$_POST['addRecordMealD'] = "add";
+						break;
+					case "Snack":
+						$_POST['addRecordMealS'] = "add";
+						break;
+				}
+				
+				
 				$this->showTodayWithParam($data["foodname"], $data["calories"]);
 				return $data;
 			}
-			if($this->dietService->recordMeal($data["recordMealType"]))
+			if(!empty($data["foodname"]) OR !empty($data["calories"]))
 			{
-				header("Location: /today");
+				if($this->dietService->recordMeal($data["recordMealType"], $data["foodname"], $data["calories"]))
+				{
+					header("Location: /today");
+				}
+				else{
+					echo $this->showToday();
+				}
 			}
-			else{
-				echo $this->showToday();
-			}
+			
 		}
 	}
 }
