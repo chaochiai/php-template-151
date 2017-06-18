@@ -1,10 +1,12 @@
 <html>
 	<head>
 		<title>Log in Form</title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 		<link rel="stylesheet" href="stylesheet.css" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
 	</head>
 	<body>
+	<div class="container"> 
 		<nav class="navbar navbar-default">
 			<div class="container-fluid">
 				<!-- Brand and toggle get grouped for better mobile display -->
@@ -22,7 +24,7 @@
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
 						<li class="active"><a href="/today">Today <span class="sr-only">(current)</span></a></li>
-						<li><a href="#">Link</a></li>
+						<li><a href="/yourJourney">Your Journey</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<?php

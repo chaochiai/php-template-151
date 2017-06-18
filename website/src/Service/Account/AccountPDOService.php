@@ -27,7 +27,22 @@ class AccountPDOService implements AccountServiceInterface
 	}
 	public function ShowPersonalInformation()
 	{
-	
+		$username = $_SESSION['login'];
+		$stmt = $this->pdo->prepare("SELECT * FROM User WHERE username=?");
+		$stmt->bindValue(1, $username);
+		$stmt->execute();
+		$result = $stmt->fetch($this->pdo::FETCH_OBJ);
+		$data["firstname"] = $result->firstname;
+		$data["lastname"] = $result->lastname;
+		$data["username"] = $result->username;
+		$data["email"] = $result->email;
+		$data["gender"] = $result->gender;
+		$data["weight"] = $result->currentWeight;
+		$data["height"] = $result->height;
+		$data["goal"] = $result->Goal;
+		$data["goalWeight"] = $result->goalWeight;
+		$data["goalCalories"] = $result->caloriesGoalIntake;
+		return $data;
 	}
 
 }

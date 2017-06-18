@@ -18,7 +18,9 @@
 
 		<input type="submit" value="Log in" name="LogIn" />
 	</form>
-
+	<form method="post" class="loginform">
+		<input type="submit" value="Forgot password?" name="Forgot password?" />
+	</form>
 <?php 
 	include 'footer.html.php';
 ?>

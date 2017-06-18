@@ -29,9 +29,8 @@ class AccountController
 		echo $this->template->render("editAccount.html.php");
 	}
 	public function showPersonalInformation() {
-		//get data
-		//show it
-		echo $this->template->render("personalInformation.html.php");
+		$data = $this->accountService->ShowPersonalInformation();
+		echo $this->template->render("personalInformation.html.php", $data);
 	}
 	public function editAccount(array $data) {
 		if(!array_key_exists("username", $data) OR !array_key_exists("password", $data)){

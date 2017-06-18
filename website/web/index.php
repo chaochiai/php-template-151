@@ -44,7 +44,7 @@ switch($_SERVER["REQUEST_URI"]) {
 		if($_SERVER['REQUEST_METHOD'] === "GET"){
 			$ctr->showPersonalInformation();
 		} else 	{
-			$ctr->logIn($_POST);
+			$ctr->showEditAccount();
 		}
 		break;
 	
@@ -59,7 +59,25 @@ switch($_SERVER["REQUEST_URI"]) {
 		if($_SERVER['REQUEST_METHOD'] === "GET"){
 			$ctr->showToday();
 		}else 	{
-			$ctr->recordMeal($_POST);
+			if(isset($_POST["recordMeal"]) OR isset($_POST["addRecordMealB"]) OR isset($_POST["addRecordMealL"]) OR isset($_POST["addRecordMealD"]))
+			{
+				$ctr->recordMeal($_POST);
+			}
+			else if(isset($_POST["deleteMRecord"]))
+			{
+				$ctr->deleteMRecord($_POST);
+			}else if(isset($_POST["addWeight"]) OR isset($_POST["recordWeight"]))
+			{
+				$ctr->recordWeight($_POST);
+			}
+		}
+		break;
+	case "/yourJourney":
+		$ctr = $factory->getDietController();
+		if($_SERVER['REQUEST_METHOD'] === "GET"){
+			$ctr->showYourJourney();
+		}else 	{
+			
 		}
 		break;
 	default:
