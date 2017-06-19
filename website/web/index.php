@@ -13,15 +13,26 @@ $factory = new chaochiai\Factory($config);
 switch($_SERVER["REQUEST_URI"]) {
 	case "/":
 		$factory->getIndexController()->homepage();
-		$factory->getMailer()->send(
-				Swift_Message::newInstance("Subject")
-				->setFrom(["chantalochiaiit@gmail.com" => "Your Name"])
-				->setTo(["foobar@gmail.com" => "Foos Name"])
-				->setBody("Here is the message itself")
-				);
+		
 		break;
-	case "/testroute":
-		echo "Test";
+	case "/forgotPassword":
+		$ctr = $factory->getAccountController();
+		if($_SERVER['REQUEST_METHOD'] === "GET"){
+			$ctr->showForgotPassword();
+		} else 	{
+			if($_SESSION["csrf"] != $_POST["csrf"]){
+				$ctr->showForgotPassword();
+				return ;
+			}
+			$email = htmlspecialchars($_POST["email"]);
+			$factory->getMailer()->send(
+					Swift_Message::newInstance("Subject")
+					->setFrom(["junhyeokhan.it@gmail.com" => "Tomato Diet Planner"])
+					->setTo([$email => "Chantal Ochiai"])
+					->setBody("Here is the message itself")
+					);
+		}
+		
 		break;
 	case "/register":
 		$ctr = $factory->getRegisterController();
@@ -59,7 +70,7 @@ switch($_SERVER["REQUEST_URI"]) {
 		if($_SERVER['REQUEST_METHOD'] === "GET"){
 			$ctr->showToday();
 		}else 	{
-			if(isset($_POST["recordMeal"]) OR isset($_POST["addRecordMealB"]) OR isset($_POST["addRecordMealL"]) OR isset($_POST["addRecordMealD"]))
+			if(isset($_POST["recordMeal"]) OR isset($_POST["addRecordMealB"]) OR isset($_POST["addRecordMealL"]) OR isset($_POST["addRecordMealD"])OR isset($_POST["addRecordMealS"]))
 			{
 				$ctr->recordMeal($_POST);
 			}

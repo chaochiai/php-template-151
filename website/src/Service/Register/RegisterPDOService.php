@@ -11,6 +11,17 @@ class RegisterPDOService implements RegisterServiceInterface
 
 	public function Register($firstname, $lastname, $username, $email, $password, $gender, $weight, $height, $goal, $goalWeight, $goalCalories)
 	{
+		$firstname = htmlspecialchars($firstname);
+		$lastname = htmlspecialchars($lastname);
+		$username = htmlspecialchars($username);
+		$email = htmlspecialchars($email);
+		$password = htmlspecialchars($password);
+		$gender = htmlspecialchars($gender);
+		$weight = htmlspecialchars($weight);
+		$height = htmlspecialchars($height);
+		$goal = htmlspecialchars($goal);
+		$goalWeight = htmlspecialchars($goalWeight);
+		$goalCalories = htmlspecialchars($goalCalories);
 		//validation user already exist
 		$stmt = $this->pdo->prepare("SELECT * FROM User WHERE email=?");
 		$stmt->bindValue(1, $email);

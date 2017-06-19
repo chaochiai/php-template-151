@@ -26,9 +26,14 @@ class LogInController
 	}
 
 	public function showLogIn() {
+		$_SESSION["csrf"] = bin2hex(random_bytes(50));
 		echo $this->template->render("login.html.php");
 	}
 	public function logIn(array $data) {
+		if($_SESSION["csrf"] != $data["csrf"]){
+			$this->showLogIn();
+			return ;
+		}
 		if(!array_key_exists("username", $data) OR !array_key_exists("password", $data)){
 			$this->showLogIn();
 			return ;

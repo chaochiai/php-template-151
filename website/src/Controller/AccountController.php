@@ -15,11 +15,10 @@ class AccountController
 	 * @var \PDO database connection
 	 * */
 	private $accountService;
-
 	/**
 	 * @param chaochiai\SimpleTemplateEngine
 	 */
-	public function __construct(SimpleTemplateEngine $template, AccountServiceInterface $accountService)
+	public function __construct(SimpleTemplateEngine $template, AccountServiceInterface $accountService) 
 	{
 		$this->template = $template;
 		$this->accountService = $accountService;
@@ -31,6 +30,10 @@ class AccountController
 	public function showPersonalInformation() {
 		$data = $this->accountService->ShowPersonalInformation();
 		echo $this->template->render("personalInformation.html.php", $data);
+	}
+	public function showForgotPassword(){
+		$_SESSION["csrf"] = bin2hex(random_bytes(50));
+		echo $this->template->render("forgotPassword.html.php");
 	}
 	public function editAccount(array $data) {
 		if(!array_key_exists("username", $data) OR !array_key_exists("password", $data)){

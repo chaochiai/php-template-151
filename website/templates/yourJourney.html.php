@@ -3,7 +3,7 @@ include 'header.html.php';
 $today = date("F j, Y");
 ?>
 
-<h1>Your Journey</h1>
+<h1>My Journey</h1>
 <h2>Weight Goal Overview</h2>
 
 <?php if(isset($data["weightMaintained"]) OR isset($data["weightGained"]) OR isset($data["weightLostNo"])){ ?>
@@ -36,7 +36,7 @@ $today = date("F j, Y");
 	    var monthlyAmountChart = new Chart(monthlyAmountCtx).Pie(data,options);
   	</script>
   	<?php } ?>
- <h2>Weight and Calories History</h2>
+ <h2>Weight and Calories History - Last 10 entries</h2>
  <?php if(isset($overviews)){ ?>
            
   <table class="table table-hover">

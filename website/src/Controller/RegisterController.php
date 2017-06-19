@@ -26,12 +26,18 @@ class RegisterController
 	}
 
 	public function showRegister() {
+		$_SESSION["csrf"] = bin2hex(random_bytes(50));
 		echo $this->template->render("register.html.php");
 	}
 	public function showRegisterWithParam($data) {
+		$_SESSION["csrf"] = bin2hex(random_bytes(50));
 		echo $this->template->render("register.html.php", $data);
 	}
 	public function register(array $data) {
+		if($_SESSION["csrf"] != $data["csrf"]){
+			$this->showRegister();
+			return ;
+		}
 		if(!array_key_exists("firstname", $data) OR !array_key_exists("lastname", $data) OR !array_key_exists("username", $data) OR !array_key_exists("email", $data) OR !array_key_exists("password", $data) OR !array_key_exists("gender", $data) OR !array_key_exists("weight", $data) OR !array_key_exists("height", $data) OR !array_key_exists("Goal", $data) OR !array_key_exists("goalWeight", $data) OR !array_key_exists("goalCalories", $data)){
 			$this->showRegister();
 			return $data;

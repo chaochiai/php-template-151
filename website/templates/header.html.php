@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Log in Form</title>
+		<title>Tomato Diet Planner</title>
 		<link rel="stylesheet" href="stylesheet.css" />
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
@@ -17,7 +17,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="/">Brand</a>
+					<a class="navbar-brand" href="/">Home</a>
 				</div>
 			
 				<!-- Collect the nav links, forms, and other content for toggling -->
@@ -27,8 +27,8 @@
 							{
 						?>
 					<ul class="nav navbar-nav">
-						<li class="active"><a href="/today">Today <span class="sr-only">(current)</span></a></li>
-						<li><a href="/yourJourney">Your Journey</a></li>
+						<li ><a href="/today">Today <span class="sr-only">(current)</span></a></li>
+						<li><a href="/yourJourney">My Journey</a></li>
 					</ul>
 					<?php
 							}
@@ -50,7 +50,7 @@
 							{
 						?>
 						<li class="dropdown">
-					          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $_SESSION['login']; ?> <span class="caret"></span></a>
+					          <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $_SESSION['login']; ?> <span class="caret"></span></a>
 					          <ul class="dropdown-menu">
 						            <li><a href="/personalInformation">My Account</a></li>
 						            <li><a href="/logout">Logout</a></li>

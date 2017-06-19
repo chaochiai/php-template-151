@@ -1,9 +1,11 @@
 <?php
 include 'header.html.php';
 $today = date("F j, Y");
+
 ?>
-<h1><?php echo $today; ?></h1>
-<h2><?php echo $weightLeft . "  kilos left!"; ?></h2>
+
+<h1>Today</h1>
+<h2><?php echo $today." ". $weightLeft . "  kilos left!"; ?></h2>
 <div>
 	Calories:
 	<div><?php if($caloriesTaken == false){ echo 0; }else{ echo $caloriesTaken; }  ?></div>
@@ -28,6 +30,7 @@ $today = date("F j, Y");
 	<div>
 		<p><?php echo $meal["Name"] . " " .$meal["Calories"] ; ?></p>
 		<form method="post" class="todayForm">
+		<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
 		<input type="hidden" value="<?php echo $meal["id"];?>" name="mriD"/>
 		<input type="submit" value="delete" name="deleteMRecord" />
 	</form>
@@ -35,19 +38,21 @@ $today = date("F j, Y");
 	<?php } } } ?>
 	<?php if(!isset($addRecordMealB) ){?>
 	<form method="post" class="todayForm">
+		<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
 		<input type="hidden" value="add" name="add"/>
 		<input type="submit" value="add" name="addRecordMealB" />
 	</form>
 	<?php }else{?>
 	<form method="post" class="todayForm">
+		<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
 		<input type="hidden" value="Breakfast" name="recordMealType"/>
-		<div>l
+		<div> 	
 			<label>Food name:</label></br>
-			<input type="text" value="<?php if(isset($foodname)){echo $foodname; }?>" name="foodname" /></br>
+			<input type="text" value="<?php if(isset($foodname)){echo htmlentities($foodname); }?>" name="foodname" /></br>
 		</div>
 		<div>
 			<label>Calories:</label></br>
-			<input type="text" value="<?php if(isset($calories)){echo $calories; }?>" name="calories" /></br>
+			<input type="text" value="<?php if(isset($calories2)){echo htmlentities($calories2); }?>" name="caloriesf" /></br>
 		</div>
 		<input type="submit" value="record" name="recordMeal" />
 	</form>
@@ -61,23 +66,30 @@ $today = date("F j, Y");
 		?>
 	<div>
 		<p><?php echo $meal["Name"] . " " .$meal["Calories"] ; ?></p>
+		<form method="post" class="todayForm">
+		<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
+		<input type="hidden" value="<?php echo $meal["id"];?>" name="mriD"/>
+		<input type="submit" value="delete" name="deleteMRecord" />
+	</form>
 	</div>
 	<?php } } } ?>
 	<?php if(!isset($addRecordMealL)){?>
 	<form method="post" class="todayForm">
+		<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
 		<input type="hidden" value="add" name="add"/>
 		<input type="submit" value="add" name="addRecordMealL" />
 	</form>
 	<?php }else{?>
 	<form method="post" class="todayForm">
+		<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
 		<input type="hidden" value="Lunch" name="recordMealType"/>
 		<div>
 			<label>Food name:</label></br>
-			<input type="text" value="<?php if(isset($foodname)){echo $foodname; }?>" name="foodname" /></br>
+			<input type="text" value="<?php if(isset($foodname)){echo htmlspecialchars($foodname); }?>" name="foodname" /></br>
 		</div>
 		<div>
 			<label>Calories:</label></br>
-			<input type="text" value="<?php if(isset($calories)){echo $calories; }?>" name="calories" /></br>
+			<input type="text" value="<?php if(isset($calories2)){echo htmlspecialchars($calories2); }?>" name="caloriesf" /></br>
 		</div>
 		<input type="submit" value="record" name="recordMeal" />
 	</form>
@@ -91,23 +103,30 @@ $today = date("F j, Y");
 		?>
 	<div>
 		<p><?php echo $meal["Name"] . " " .$meal["Calories"] ; ?></p>
+		<form method="post" class="todayForm">
+		<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
+		<input type="hidden" value="<?php echo $meal["id"];?>" name="mriD"/>
+		<input type="submit" value="delete" name="deleteMRecord" />
+	</form>
 	</div>
 	<?php } } } ?>
 	<?php if(!isset($addRecordMealD)){?>
 	<form method="post" class="todayForm">
+		<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
 		<input type="hidden" value="add" name="add"/>
 		<input type="submit" value="add" name="addRecordMealD" />
 	</form>
 	<?php }else{?>
 	<form method="post" class="todayForm">
+		<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
 		<input type="hidden" value="Dinner" name="recordMealType"/>
 		<div>
 			<label>Food name:</label></br>
-			<input type="text" value="<?php if(isset($foodname)){echo $foodname; }?>" name="foodname" /></br>
+			<input type="text" value="<?php if(isset($foodname)){echo htmlspecialchars($foodname); }?>" name="foodname" /></br>
 		</div>
 		<div>
 			<label>Calories:</label></br>
-			<input type="text" value="<?php if(isset($calories)){echo $calories; }?>" name="calories" /></br>
+			<input type="text" value="<?php if(isset($calories2)){echo htmlspecialchars($calories2); }?>" name="caloriesf" /></br>
 		</div>
 		<input type="submit" value="record" name="recordMeal" />
 	</form>
@@ -115,36 +134,53 @@ $today = date("F j, Y");
 </fieldset>
 <fieldset>
 	<legend>Snack</legend>
+		<?php if($meals != 0){
+		foreach ($meals as $meal){
+			if($meal["mealType"] == "Snack"){
+		?>
+	<div>
+		<p><?php echo $meal["Name"] . " " .$meal["Calories"] ; ?></p>
+		<form method="post" class="todayForm">
+		<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
+		<input type="hidden" value="<?php echo $meal["id"];?>" name="mriD"/>
+		<input type="submit" value="delete" name="deleteMRecord" />
+	</form>
+	</div>
+	<?php } } } ?>
 	<?php if(!isset($addRecordMealS)){?>
 	<form method="post" class="todayForm">
+		<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
 		<input type="hidden" value="add" name="add"/>
 		<input type="submit" value="add" name="addRecordMealS" />
 	</form>
 	<?php }else{?>
 	<form method="post" class="todayForm">
+		<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
 		<input type="hidden" value="Snack" name="recordMealType"/>
 		<div>
 			<label>Food name:</label></br>
-			<input type="text" value="<?php if(isset($foodname)){echo $foodname; }?>" name="foodname" /></br>
+			<input type="text" value="<?php if(isset($foodname)){echo htmlspecialchars($foodname); }?>" name="foodname" /></br>
 		</div>
 		<div>
 			<label>Calories:</label></br>
-			<input type="text" value="<?php if(isset($calories)){echo $calories; }?>" name="calories" /></br>
+			<input type="text" value="<?php if(isset($calories2)){echo htmlspecialchars($calories2); }?>" name="caloriesf" /></br>
 		</div>
 		<input type="submit" value="record" name="recordMeal" />
 	</form>
 	<?php }?>
 </fieldset>
 <h2><?php echo "Your weight today is $weightToday";  ?></h2>
-	<?php if(!isset($_POST['addWeight'])){?>
+	<?php if(!isset($addWeight)){?>
 	<form method="post" class="todayForm">
+		<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
 		<input type="submit" value="edit" name="addWeight" />
 	</form>
 	<?php }else{?>
 	<form method="post" class="todayForm">
+		<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
 		<div>
 			<label>Weight:</label></br>
-			<input type="text" name="weight" /></br>
+			<input type="text" value="<?php if(isset($weight)){echo htmlspecialchars($weight); }?>" name="weight" /></br>
 		</div>
 		<input type="submit" value="record" name="recordWeight" />
 	</form>

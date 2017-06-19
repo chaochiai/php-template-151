@@ -21,7 +21,7 @@ class DietPDOService implements DietServiceInterface
 	public function WeightLeft()
 	{
 		$username = $_SESSION["login"];
-		$stmt = $this->pdo->prepare("SELECT id, currentWeight, goalWeight, Goal  FROM User WHERE username=?");
+		$stmt = $this->pdo->prepare("SELECT id, currentWeight, goalWeight, Goal  FROM User WHERE username=? ");
 		$stmt->bindValue(1, $username);
 		$stmt->execute();
 		
@@ -31,7 +31,7 @@ class DietPDOService implements DietServiceInterface
 		$goalWeight = $result->goalWeight;
 		$goal = $result->Goal;
 		
-		$stmt2 = $this->pdo->prepare("SELECT * FROM Overview WHERE userId=?");
+		$stmt2 = $this->pdo->prepare("SELECT * FROM Overview WHERE userId=? ORDER BY id DESC LIMIT 1");
 		$stmt2->bindValue(1, $id);
 		$stmt2->execute();
 		
@@ -103,6 +103,8 @@ class DietPDOService implements DietServiceInterface
 		return $data;
 	}
 	public function recordMeal($mealType, $foodName, $calories){
+		$foodName = htmlspecialchars($foodName);
+		$calories = htmlspecialchars($calories);
 		//validation meal already exist
 		$stmt = $this->pdo->prepare("SELECT * FROM Meal WHERE name=? AND calories=?");
 		$stmt->bindValue(1, $foodName);
@@ -241,6 +243,7 @@ class DietPDOService implements DietServiceInterface
 		
 	}
 	public function recordWeight($weight){
+		$weight = htmlspecialchars($weight);
 		//validation overview already exist
 		$userId = $this->getUserId();
 		$date = date("Y-m-d");
@@ -287,7 +290,7 @@ class DietPDOService implements DietServiceInterface
 	}
 	public function showHistory(){
 		$userId = $this->getUserId();
-		$stmt = $this->pdo->prepare("SELECT * FROM Overview WHERE userId=?");
+		$stmt = $this->pdo->prepare("SELECT * FROM Overview WHERE userId=? ORDER BY id DESC LIMIT 10");
 		$stmt->bindValue(1, $userId);
 		$stmt->execute();
 		

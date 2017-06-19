@@ -26,6 +26,7 @@ class DietController
 	}
 
 	public function showToday() {
+		$_SESSION["csrf"] = bin2hex(random_bytes(50));
 		$weightLeft = $this->dietService->WeightLeft();
 		if($this->dietService->showMeals() == false){
 			$data["meals"] = 0;
@@ -44,33 +45,50 @@ class DietController
 		echo $this->template->render("today.html.php", $data);
 	}
 	public function showTodayWithParam($foodName, $calories, $weight, $addRecordMeal) {
+		$_SESSION["csrf"] = bin2hex(random_bytes(50));
 		$weightLeft = $this->dietService->WeightLeft();
-		$data['weightLeft'] = $weightLeft;
-		
-		switch($data["recordMealType"])
-		{
-			case "B":
-				$data["addRecordMealB"] = "B";
-				break;
-			case "L":
-				$data["addRecordMealL"] = "L";
-				break;
-			case "D":
-				$data["addRecordMealD"]= "D";
-				break;
-			case "S":
-				$data["addRecordMealS"] = "S";
-				break;
+		if($this->dietService->showMeals() == false){
+			$data["meals"] = 0;
+		} else {
+			$data["meals"] = $this->dietService->showMeals();
 		}
-		
-		if($foodName != null AND $calories != null)
+		$calories2 = $this->dietService->Calories();
+		if(!empty($calories2))
 		{
+			$data["maximumCalories"] = $calories2["maximumCalories"];
+			$data["caloriesTaken"] = $calories2["caloriesTaken"];
+			$data["caloriesPercentage"] = $calories2["caloriesPercentage"];
+		}
+		$data["weightToday"] = $this->dietService->showWeightToday();
+		$data["weightLeft"] = $weightLeft;
+		if(isset($addRecordMeal)){
+			switch($addRecordMeal)
+			{
+				case "B":
+					$data["addRecordMealB"] = "B";
+					break;
+				case "L":
+					$data["addRecordMealL"] = "L";
+					break;
+				case "D":
+					$data["addRecordMealD"]= "D";
+					break;
+				case "S":
+					$data["addRecordMealS"] = "S";
+					break;
+			}
+		}
+		if(!empty($foodName)  OR !empty($calories))
+		{
+			print_r($data);
 			$data['foodname'] = $foodName;
-			$data['calories'] = $calories;
+			$data['calories2'] = $calories;
 		}else{
 			$data['weight'] = $weight;
 		}
-		
+		if($weight == null){
+			$data["addWeight"] = "edit";
+		}
 		echo $this->template->render("today.html.php", $data);
 	}
 	public function showYourJourney() {
@@ -89,18 +107,32 @@ class DietController
 		echo $this->template->render("yourJourney.html.php", $data);
 	}
 	public function recordMeal(array $data) {
-		if(array_key_exists("add", $data)){
-			
+		if($_SESSION["csrf"] != $data["csrf"]){
 			$this->showToday();
 			return ;
 		}
+		//if(array_key_exists("add", $data) AND !array_key_exists("recordMeal", $data)){
+		if(isset($_POST["add"])){
+			if(isset($data["addRecordMealB"])){
+				$letter = "B";
+			}elseif(isset($data["addRecordMealL"])){
+				$letter = "L";
+			}elseif(isset($data["addRecordMealD"])){
+				$letter = "D";
+			}elseif(isset($data["addRecordMealS"])){
+				$letter = "S";
+			}
+			$this->showTodayWithParam(null , null, null,	$letter);
+		}
 		if(array_key_exists("recordMeal", $data)){	
 			
-			if(empty($data["foodname"]) OR empty($data["calories"])){
+			if(empty($data["foodname"]) OR empty($data["caloriesf"])){
+				
 				switch($data["recordMealType"])
 				{
 					case "Breakfast":
 						$addRecordMeal = "B";
+						$_POST["addRecordMealB"] = "add";
 						break;
 					case "Lunch":
 						$addRecordMeal = "L";
@@ -110,18 +142,21 @@ class DietController
 						break;
 					case "Snack":
 						$addRecordMeal = "S";
+						$_POST["addRecordMealS"] = "add";
 						break;
 				}
 				
 				$weight = null;
-				$this->showTodayWithParam($data["foodname"], $data["calories"], $weight, $addRecordMeal);
-				return $data;
+				
+				print_r($data["foodname"]);
+				$this->showTodayWithParam($data["foodname"], $data["caloriesf"], $weight, $addRecordMeal);
+				
 			}
-			if(!empty($data["foodname"]) OR !empty($data["calories"]))
+			if(!empty($data["foodname"]) AND !empty($data["caloriesf"]))
 			{
-				if($this->dietService->recordMeal($data["recordMealType"], $data["foodname"], $data["calories"]))
+				
+				if($this->dietService->recordMeal($data["recordMealType"], $data["foodname"], $data["caloriesf"]))
 				{
-					
 					header("Location: /today");
 				}
 				else{
@@ -133,21 +168,29 @@ class DietController
 	}
 	public function deleteMRecord(array $data)
 	{
+		if($_SESSION["csrf"] != $data["csrf"]){
+			$this->showToday();
+			return ;
+		}
 		$this->dietService->deleteMRecord($data["mriD"]);
 		$this->showToday();
 	}
 	public function recordWeight(array $data) {
-		if(array_key_exists("addWeight", $data)){
+		if($_SESSION["csrf"] != $data["csrf"]){
 			$this->showToday();
+			return ;
+		}
+		if(isset($data["addWeight"])){
+			print_r($data);
+			$this->showTodayWithParam(null, null, null, null);
 			return ;
 		}
 		if(array_key_exists("recordWeight", $data)){
 				
 			if(empty($data["weight"])){
-				$_POST['addWeight'] = "add";
 				$foodname = null;
 				$calories = null;
-				$this->showTodayWithParam($foodname, $calories, $data["weight"]);
+				$this->showTodayWithParam($foodname, $calories, $data["weight"], null);
 				return $data;
 			}
 			if(!empty($data["weight"]))

@@ -11,6 +11,8 @@ class LogInPDOService implements LogInServiceInterface
 	
 	public function Authentication($username, $password)
 	{
+		$username = htmlspecialchars($username);
+		$password = htmlspecialchars($password);
 		$stmt = $this->pdo->prepare("SELECT * FROM User WHERE username=?");
 		$stmt->bindValue(1, $username);
 		$stmt->execute();
