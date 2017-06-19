@@ -5,6 +5,16 @@ $today = date("F j, Y");
 
 <h1>Your Journey</h1>
 <h2>Weight Goal Overview</h2>
+
+<?php if(isset($data["weightMaintained"]) OR isset($data["weightGained"]) OR isset($data["weightLostNo"])){ ?>
+  	<?php if(isset($data["weightMaintained"])){ ?>
+  		<div>You didn't gain or lose any weight! Keep it up!</div>
+  	<?php } else if(set($data["weightGained"])){?>
+  		<div>You gained Weight! You should lose <?php echo $data["weightGained"]; ?>.</div>
+  	<?php } elseif(set($data["weightLostNo"])){?>
+  		<div>You lost Weight! You should gain <?php echo $data["weightLostNo"]; ?>.</div>
+  	<?php }?>
+  	<?php } else{ ?>
 <canvas id="monthlyAmountChart" width="400" height="400"></canvas>
 	<script type="text/javascript">
 		var monthlyAmountCtx = document.getElementById("monthlyAmountChart").getContext("2d");
@@ -25,6 +35,7 @@ $today = date("F j, Y");
 	    };
 	    var monthlyAmountChart = new Chart(monthlyAmountCtx).Pie(data,options);
   	</script>
+  	<?php } ?>
  <h2>Weight and Calories History</h2>
  <?php if(isset($overviews)){ ?>
            

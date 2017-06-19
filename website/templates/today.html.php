@@ -33,7 +33,7 @@ $today = date("F j, Y");
 	</form>
 	</div>
 	<?php } } } ?>
-	<?php if(!isset($_POST['addRecordMealB'])){?>
+	<?php if(!isset($addRecordMealB) ){?>
 	<form method="post" class="todayForm">
 		<input type="hidden" value="add" name="add"/>
 		<input type="submit" value="add" name="addRecordMealB" />
@@ -63,7 +63,7 @@ $today = date("F j, Y");
 		<p><?php echo $meal["Name"] . " " .$meal["Calories"] ; ?></p>
 	</div>
 	<?php } } } ?>
-	<?php if(!isset($_POST['addRecordMealL'])){?>
+	<?php if(!isset($addRecordMealL)){?>
 	<form method="post" class="todayForm">
 		<input type="hidden" value="add" name="add"/>
 		<input type="submit" value="add" name="addRecordMealL" />
@@ -93,7 +93,7 @@ $today = date("F j, Y");
 		<p><?php echo $meal["Name"] . " " .$meal["Calories"] ; ?></p>
 	</div>
 	<?php } } } ?>
-	<?php if(!isset($_POST['addRecordMealD'])){?>
+	<?php if(!isset($addRecordMealD)){?>
 	<form method="post" class="todayForm">
 		<input type="hidden" value="add" name="add"/>
 		<input type="submit" value="add" name="addRecordMealD" />
@@ -115,7 +115,7 @@ $today = date("F j, Y");
 </fieldset>
 <fieldset>
 	<legend>Snack</legend>
-	<?php if(!isset($_POST['addRecordMealS'])){?>
+	<?php if(!isset($addRecordMealS)){?>
 	<form method="post" class="todayForm">
 		<input type="hidden" value="add" name="add"/>
 		<input type="submit" value="add" name="addRecordMealS" />

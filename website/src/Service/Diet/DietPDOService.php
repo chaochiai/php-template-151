@@ -324,7 +324,18 @@ class DietPDOService implements DietServiceInterface
 				$data["weightLeft"] = $weight - $goalWeight;
 				break;
 			case 'Maintain Weight':
-				$data = null;
+				$weightGained = $weight - $goalWeight;
+				$weightLost = 	$weight - $goalWeight;
+				$weightLostPos = $goalWeight - $weight;
+				if($weightGained == 0 AND $weightLost == 0){
+					$data["weightMaintained"] = 0;
+				} else if($weightGained > 0 ){
+					$data["weightGained"] = $weightGained;
+				} else if($weightLost < 0 ){
+					$data["weightLostNo"] = $weightLost;
+					$data["weightLostPos"] = $weightLostPos;
+				}
+				$data["weightLost"] = $weight - $goalWeight;
 				break;
 			case 'Gain Weight':
 				$data["weightLost"] = $weight - $currentWeight;
