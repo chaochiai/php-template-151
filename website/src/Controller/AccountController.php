@@ -15,13 +15,15 @@ class AccountController
 	 * @var \PDO database connection
 	 * */
 	private $accountService;
+
 	/**
 	 * @param chaochiai\SimpleTemplateEngine
 	 */
-	public function __construct(SimpleTemplateEngine $template, AccountServiceInterface $accountService) 
+	public function __construct(SimpleTemplateEngine $template, AccountServiceInterface $accountService, \Swift_Mailer $mailer) 
 	{
 		$this->template = $template;
 		$this->accountService = $accountService;
+		$this->mailer = $mailer;
 	}
 
 	public function showEditAccount() {
@@ -48,5 +50,14 @@ class AccountController
 		else{
 			echo $this->template->render("login.html.php", ["username" => $data["username"]]);
 		}
+	}
+	public function sendEmail(array $data){
+		$email = $data["email"];
+		$message = (new \Swift_Message())
+		->setSubject('[Tomato Diet Planner] Reset password')
+		->setFrom(['chantalOchiai@gmail.com' => 'Tomato Diet Planner'])
+		->setTo([$email])
+		->setBody("message"	);
+		$this->mailer->send($message);
 	}
 }

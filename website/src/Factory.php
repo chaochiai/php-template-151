@@ -55,7 +55,7 @@ class Factory {
 	}
 	public function getAccountController()
 	{
-		return new Controller\AccountController($this->getTemplateEngine(), $this->getAccountService());
+		return new Controller\AccountController($this->getTemplateEngine(), $this->getAccountService(), $this->getMailer());
 	}
 	public function getDietService()
 	{

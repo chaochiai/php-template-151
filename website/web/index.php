@@ -24,13 +24,7 @@ switch($_SERVER["REQUEST_URI"]) {
 				$ctr->showForgotPassword();
 				return ;
 			}
-			$email = htmlspecialchars($_POST["email"]);
-			$factory->getMailer()->send(
-					Swift_Message::newInstance("Subject")
-					->setFrom(["junhyeokhan.it@gmail.com" => "Tomato Diet Planner"])
-					->setTo([$email => "Chantal Ochiai"])
-					->setBody("Here is the message itself")
-					);
+			$ctr->sendEmail($_POST);
 		}
 		
 		break;

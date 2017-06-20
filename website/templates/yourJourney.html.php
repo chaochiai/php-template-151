@@ -4,6 +4,7 @@ $today = date("F j, Y");
 ?>
 
 <h1>My Journey</h1>
+<div class="content">
 <h2>Weight Goal Overview</h2>
 
 <?php if(isset($data["weightMaintained"]) OR isset($data["weightGained"]) OR isset($data["weightLostNo"])){ ?>
@@ -56,7 +57,7 @@ $today = date("F j, Y");
       </tr>
       <?php }?>
     </tbody>
-  </table>
+  
 
 <?php } else{echo "No entries have been entered yet.";}?>
 

@@ -1,9 +1,11 @@
 <html>
 	<head>
 		<title>Tomato Diet Planner</title>
-		<link rel="stylesheet" href="stylesheet.css" />
+		
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="stylesheet.css" />
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+		
 	</head>
 	<body>
 	<div class="container"> 
@@ -63,3 +65,4 @@
 				</div><!-- /.navbar-collapse -->
 			</div><!-- /.container-fluid -->
 		</nav>
+	<div class="body">

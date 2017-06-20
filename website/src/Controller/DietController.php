@@ -132,7 +132,6 @@ class DietController
 				{
 					case "Breakfast":
 						$addRecordMeal = "B";
-						$_POST["addRecordMealB"] = "add";
 						break;
 					case "Lunch":
 						$addRecordMeal = "L";
@@ -142,7 +141,6 @@ class DietController
 						break;
 					case "Snack":
 						$addRecordMeal = "S";
-						$_POST["addRecordMealS"] = "add";
 						break;
 				}
 				

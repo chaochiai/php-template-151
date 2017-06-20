@@ -4,6 +4,7 @@ namespace chaochiai\Service\Account;
 class AccountPDOService implements AccountServiceInterface
 {
 	private $pdo;
+	private $mailer;
 	public function __construct(\PDO $pdo)
 	{
 		$this->pdo = $pdo;

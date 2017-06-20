@@ -2,49 +2,87 @@
 	include 'header.html.php';
 ?>
 <h1>Register</h1>
-<form method="post">
-	<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
-	<h2>Personal Details</h2>
+<div class="content">
+<form method="post" class="form">
+	<div class="form-group">
+		<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
+		<h2>Personal Details</h2>
+	</div>
 	
-	<label>First name:</label></br>
-	<input type="text" value="<?php if(isset($firstname)){echo  htmlspecialchars($firstname); }?>" name="firstname" /></br>
+	<div class="form-group">
+	<label>First name:</label>
+	<input class="form-control" type="text" value="<?php if(isset($firstname)){echo  htmlspecialchars($firstname); }?>" name="firstname" />
+	</div>
 	
-	<label>Last name:</label></br>
-	<input type="text" value="<?php if(isset($lastname)){echo  htmlspecialchars($lastname); }?>" name="lastname" /></br>
+	<div class="form-group">
+	<label>Last name:</label>
+	<input class="form-control" type="text" value="<?php if(isset($lastname)){echo  htmlspecialchars($lastname); }?>" name="lastname" />
+	</div>
 	
-	<label>Username:</label></br>
-	<input type="text" value="<?php if(isset($username)){echo  htmlspecialchars($username); }?>" name="username" /></br>
+	<div class="form-group">
+	<label>Username:</label>
+	<input class="form-control" type="text" value="<?php if(isset($username)){echo  htmlspecialchars($username); }?>" name="username" />
+	</div>
 	
-	<label>Email:</label></br>
-	<input type="text" value="<?php if(isset($email)){echo  htmlspecialchars($email); }?>" name="email" /></br>
+	<div class="form-group">
+	<label>Email:</label>
+	<input class="form-control" type="text" value="<?php if(isset($email)){echo  htmlspecialchars($email); }?>" name="email" />
+	</div>
 	
-	<label>Password:</label></br>
-	<input type="password" value="<?php if(isset($password)){echo  htmlspecialchars($password); }?>" name="password" /></br>
+	<div class="form-group">
+	<label>Password:</label>
+	<input class="form-control" type="password" value="<?php if(isset($password)){echo  htmlspecialchars($password); }?>" name="password" />
+	</div>
 	
-	<label>Gender:</label></br>
-	<input type="radio" name="gender" value="female"> Female<br>
-	<input type="radio" name="gender" value="male" checked> Male<br>
+	<div class="form-group">
+	<label>Gender:</label>
+	<div>
+		<input  type="radio" name="gender" value="female" <?php if(isset($gender)){ if($gender === "female"){ echo "checked";} } ?>> Female
+	</div>
+	<div>
+		<input  type="radio" name="gender" value="male" <?php if(isset($gender)){ if($gender === "male"){ echo "checked";} }?> >Male
+	</div>
 	
-	<label>Weight:</label></br>
-	<input type="text" value="<?php if(isset($weight)){echo  htmlspecialchars($weight); }?>" name="weight" /></br>
+	</div>
 	
-	<label>Height:</label></br>
-	<input type="text" value="<?php if(isset($height)){echo  htmlspecialchars($height); }?>" name="height" /></br>
+	<div class="form-group">
+	<label>Weight (kg):</label>
+	<input class="form-control" type="text" value="<?php if(isset($weight)){echo  htmlspecialchars($weight); }?>" name="weight" />
+	</div>
+	
+	<div class="form-group">
+	<label>Height (cm):</label>
+	
+	<input class="form-control" type="text" value="<?php if(isset($height)){echo  htmlspecialchars($height); }?>" name="height" />
+	</div>
 	
 	<h2>Goal</h2>
 	
-	<label>Goal:</label></br>
-	<input type="radio" name="Goal" value="Lose Weight"> Lose Weight<br>
-	<input type="radio" name="Goal" value="Maintain Weight" checked> Maintain Weight<br>
-	<input type="radio" name="Goal" value="Gain Weight"> Gain Weight<br>
+	<div class="form-group">
+	<label>Goal:</label>
+	<div>
+		<input type="radio" name="Goal" value="Lose Weight" <?php if(isset($Goal)){ if($Goal === "Lose Weight"){ echo "checked";} }?>> Lose Weight
+	</div>
+	<div>
+		<input  type="radio" name="Goal" value="Maintain Weight" <?php if(isset($Goal)){ if($Goal === "Maintain Weight"){ echo "checked";} }?>> Maintain Weight
+	</div>
+	<div>
+		<input  type="radio" name="Goal" value="Gain Weight" <?php if(isset($Goal)){ if($Goal === "Gain Weight"){ echo "checked";} }?>> Gain Weight
+	</div>
+	</div>
 	
-	<label>Goal Weight:</label></br>
-	<input type="text" value="<?php if(isset($goalWeight)){echo  htmlspecialchars($goalWeight); }?>" name="goalWeight" /></br>
+	<div class="form-group">
+	<label>Goal Weight (kg):</label>
+	<input class="form-control" type="text" value="<?php if(isset($goalWeight)){echo  htmlspecialchars($goalWeight); }?>" name="goalWeight" />
+	</div>
 	
-	<label>Calories Goal Intake per day:</label></br>
-	<input type="text" value="<?php if(isset($goalCalories)){echo  htmlspecialchars($goalCalories); }?>" name="goalCalories" /></br></br>
+	<div class="form-group">
+	<label>Calories Goal Intake per day:</label>
+	<input class="form-control" type="text" value="<?php if(isset($goalCalories)){echo  htmlspecialchars($goalCalories); }?>" name="goalCalories" />
+	</div>
 	
-	<input type="submit" value="Register" name="Register" />
+	<input type="submit" class="btn btn-success" value="Register" name="Register" />
+	<a href="/" class="btn btn-danger" name="cancel">Cancel</a>
 </form>
 <?php 
 	include 'footer.html.php';
