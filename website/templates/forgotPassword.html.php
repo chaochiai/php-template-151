@@ -4,7 +4,7 @@ include 'header.html.php';
 	<h1>Forgot password</h1>
 	<div class="content">
 	<?php if(!isset($con)){?>
-	<form method="post" >
+	<form method="post" class="loginform" >
 		<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
 		An email will be sent to you.
 		</br>

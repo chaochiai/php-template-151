@@ -9,8 +9,9 @@ $config = parse_ini_file(__DIR__."/../config.ini", true);
 
 $factory = new chaochiai\Factory($config);
 
+$requestUrl = explode('?', $_SERVER["REQUEST_URI"])[0];
 
-switch($_SERVER["REQUEST_URI"]) {
+switch($requestUrl) {
 	case "/":
 		$factory->getIndexController()->homepage();
 		
@@ -27,7 +28,7 @@ switch($_SERVER["REQUEST_URI"]) {
 			}
 		}
 		break;
-	case "/resetPassword":
+	case "/resetpassword":
 		$ctr = $factory->getAccountController();
 		if($_SERVER['REQUEST_METHOD'] === "GET"){
 			$ctr->showResetPassword();
@@ -35,6 +36,8 @@ switch($_SERVER["REQUEST_URI"]) {
 			if($_SESSION["csrf"] != $_POST["csrf"]){
 				$ctr->showResetPassword();
 			}else{
+				$_POST["key"] = $_GET["key"];
+				echo $_POST["key"];
 				$ctr->resetPassword($_POST);
 			}
 		}

@@ -45,5 +45,58 @@ class AccountPDOService implements AccountServiceInterface
 		$data["goalCalories"] = $result->caloriesGoalIntake;
 		return $data;
 	}
-
+	public function getUrl($email){
+		$timePoint = time();
+		$query = $this->pdo->prepare("SELECT * FROM User WHERE email = ?");
+		$query->execute([$email]);
+		if ($query->rowCount() > 0){
+			$userId = $query->fetchColumn(0);
+			
+			$key = sprintf('%d%d', $userId, $timePoint);
+			$url = sprintf ("%s://%s/%s?key=%s", isset($_SERVER ['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http', $_SERVER['HTTP_HOST'], "resetpassword", $key);
+			$data["url"] = $url;
+			$data["timePoint"] = $timePoint;
+			$data["userId"] = $userId;
+			
+			return $data;
+		}else{
+			return null;
+		}
+	}
+	public function setPoint($timePoint, $userId){
+		$query = $this->pdo->prepare("UPDATE User SET resetPoint = ? WHERE id = ?");
+		$query->execute([$timePoint, $userId]);
+		if ($query->rowCount() == 1){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	public function resetPassword($key, $newPassword){
+		$email = $this->getEmailByResetKey($key);
+		if($email != null){
+			$passwordSalted = password_hash($newPassword, PASSWORD_DEFAULT);
+			$stmt = $this->pdo->prepare("UPDATE User SET password = ? WHERE email = ?");
+			$stmt->bindParam(1, $passwordSalted);
+			$stmt->bindParam(2, $email);
+			$stmt->execute();
+		}
+		if ($stmt->rowCount() > 0){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	public function getEmailByResetKey($key)
+	{
+		$query = $this->pdo->prepare("SELECT * from User WHERE Concat(id, resetPoint) = ?");
+		$query->execute([$key]);
+	
+		if ($query->rowCount () > 0){
+			$email = $query->fetchColumn(3);
+			return $email;
+		} else {
+			return null;
+		}
+	}
 }
