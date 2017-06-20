@@ -3,6 +3,9 @@ include 'header.html.php';
 ?>
 	<h1>Reset password</h1>
 	<div class="content">
+	<?php if(isset($success)){?>
+		<div>Password changed successfully!</div>
+	<?php }else{?>
 	<form method="post" class="loginform">
 		<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
 		<input type="hidden" name="email" value="<?php if(isset($email)){echo  htmlspecialchars($email); } ?>";/>
@@ -17,7 +20,7 @@ include 'header.html.php';
 			<input type="submit" class="btn btn-success" value="Submit" name="resetPass" />
 			<a href="/" class="btn btn-danger" name="cancel">Cancel</a>
 	</form>
-
+<?php }?>
 <?php 
 	include 'footer.html.php';
 ?>

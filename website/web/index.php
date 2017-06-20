@@ -36,8 +36,7 @@ switch($requestUrl) {
 			if($_SESSION["csrf"] != $_POST["csrf"]){
 				$ctr->showResetPassword();
 			}else{
-				$_POST["key"] = $_GET["key"];
-				echo $_POST["key"];
+				$_POST["key"] = $_GET["key"];;
 				$ctr->resetPassword($_POST);
 			}
 		}

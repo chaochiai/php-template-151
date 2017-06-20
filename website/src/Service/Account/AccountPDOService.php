@@ -93,7 +93,7 @@ class AccountPDOService implements AccountServiceInterface
 		$query->execute([$key]);
 	
 		if ($query->rowCount () > 0){
-			$email = $query->fetchColumn(3);
+			$email = $query->fetchColumn(2);
 			return $email;
 		} else {
 			return null;
