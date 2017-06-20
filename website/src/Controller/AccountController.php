@@ -37,6 +37,14 @@ class AccountController
 		$_SESSION["csrf"] = bin2hex(random_bytes(50));
 		echo $this->template->render("forgotPassword.html.php");
 	}
+	public function showForgotPasswordWithParam(array $data){
+		$_SESSION["csrf"] = bin2hex(random_bytes(50));
+		echo $this->template->render("forgotPassword.html.php", $data);
+	}
+	public function showResetPassword(){
+		$_SESSION["csrf"] = bin2hex(random_bytes(50));
+		echo $this->template->render("resetPassword.html.php");
+	}
 	public function editAccount(array $data) {
 		if(!array_key_exists("username", $data) OR !array_key_exists("password", $data)){
 			$this->showLogIn();
@@ -51,13 +59,27 @@ class AccountController
 			echo $this->template->render("login.html.php", ["username" => $data["username"]]);
 		}
 	}
+	public function resetPassword(array $data) {
+		if(!array_key_exists("newPassword", $data) OR !array_key_exists("rePassword", $data)){
+			$this->showLogIn();
+			return ;
+		}
+		print_r($data);
+	}
 	public function sendEmail(array $data){
 		$email = $data["email"];
+		$url = "https://localhost/resetPassword";
 		$message = (new \Swift_Message())
 		->setSubject('[Tomato Diet Planner] Reset password')
 		->setFrom(['chantalOchiai@gmail.com' => 'Tomato Diet Planner'])
 		->setTo([$email])
-		->setBody("message"	);
-		$this->mailer->send($message);
+		->setBody("Please go to the link to reset your email $url");
+		$result = $this->mailer->send($message);
+		if($result === 1){
+			$data["con"] = "con";
+			$this->showForgotPasswordWithParam($data);
+		}else{
+			$this->showForgotPassword();
+		}
 	}
 }

@@ -22,11 +22,22 @@ switch($_SERVER["REQUEST_URI"]) {
 		} else 	{
 			if($_SESSION["csrf"] != $_POST["csrf"]){
 				$ctr->showForgotPassword();
-				return ;
+			}else{
+				$ctr->sendEmail($_POST);
 			}
-			$ctr->sendEmail($_POST);
 		}
-		
+		break;
+	case "/resetPassword":
+		$ctr = $factory->getAccountController();
+		if($_SERVER['REQUEST_METHOD'] === "GET"){
+			$ctr->showResetPassword();
+		} else 	{
+			if($_SESSION["csrf"] != $_POST["csrf"]){
+				$ctr->showResetPassword();
+			}else{
+				$ctr->resetPassword($_POST);
+			}
+		}
 		break;
 	case "/register":
 		$ctr = $factory->getRegisterController();
