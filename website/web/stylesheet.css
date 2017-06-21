@@ -38,3 +38,11 @@
 .text{
 	font-size:15px;
 }
+.validation{
+	color: red;
+}
+.maintain{
+	height: 40px;
+	font-size: 20px;
+	font-style: italic;
+}

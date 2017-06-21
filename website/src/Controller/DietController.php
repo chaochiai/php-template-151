@@ -27,6 +27,9 @@ class DietController
 
 	public function showToday() {
 		$_SESSION["csrf"] = bin2hex(random_bytes(50));
+		if (isset($_SESSION["intFieldsVal"])) {
+			unset($_SESSION['intFieldsVal']);
+		}
 		$weightLeft = $this->dietService->WeightLeft();
 		if($this->dietService->showMeals() == false){
 			$data["meals"] = 0;
@@ -80,13 +83,17 @@ class DietController
 		}
 		if(!empty($foodName)  OR !empty($calories))
 		{
-			print_r($data);
 			$data['foodname'] = $foodName;
 			$data['calories2'] = $calories;
 		}else{
-			$data['weight'] = $weight;
+			if($weight === "edit"){
+				$data['weight'] = null;
+			}else{
+				$data['weight'] = $weight;
+			}
+			
 		}
-		if($weight == null){
+		if($weight == "edit"){
 			$data["addWeight"] = "edit";
 		}
 		echo $this->template->render("today.html.php", $data);
@@ -96,9 +103,15 @@ class DietController
 		$weight = $this->dietService->getWeightOverview();
 		if(isset($weight["weightMaintained"]) OR isset($weight["weightGained"]) OR isset($weight["weightLostNo"]))
 		{
-			$data["weightMaintained"] = $weight["weightMaintained"];
+			if(isset($weight["weightMaintained"])){
+				$data["weightMaintained"] = $weight["weightMaintained"];
+			}
+			if(isset($weight["weightGained"])){
 			$data["weightGained"] = $weight["weightGained"];
+			}
+			if(isset($weight["weightLostPos"])){
 			$data["weightLostNo"] = $weight["weightLostPos"];
+			}
 		}else{
 			$data["weightLostOrGain"] = $weight["weightLost"];
 			$data["weightLeft"] = $weight["weightLeft"];
@@ -126,7 +139,7 @@ class DietController
 		}
 		if(array_key_exists("recordMeal", $data)){	
 			
-			if(empty($data["foodname"]) OR empty($data["caloriesf"])){
+			if(empty($data["foodname"]) OR empty($data["caloriesf"]) OR !(!is_float($data['caloriesf']) OR !is_int($data['caloriesf']))){
 				
 				switch($data["recordMealType"])
 				{
@@ -143,23 +156,22 @@ class DietController
 						$addRecordMeal = "S";
 						break;
 				}
-				
+				$_SESSION["intFieldsVal"] = "Every fields must be filled. Calories should be in numbers!";
 				$weight = null;
-				
-				print_r($data["foodname"]);
 				$this->showTodayWithParam($data["foodname"], $data["caloriesf"], $weight, $addRecordMeal);
 				
 			}
-			if(!empty($data["foodname"]) AND !empty($data["caloriesf"]))
+			else
 			{
+					if($this->dietService->recordMeal($data["recordMealType"], $data["foodname"], $data["caloriesf"]))
+					{
+						header("Location: /today");
+					}
+					else{
+						echo $this->showToday();
+					}
 				
-				if($this->dietService->recordMeal($data["recordMealType"], $data["foodname"], $data["caloriesf"]))
-				{
-					header("Location: /today");
-				}
-				else{
-					echo $this->showToday();
-				}
+				
 			}
 			
 		}
@@ -179,19 +191,19 @@ class DietController
 			return ;
 		}
 		if(isset($data["addWeight"])){
-			print_r($data);
-			$this->showTodayWithParam(null, null, null, null);
+			$this->showTodayWithParam(null, null, "edit", null);
 			return ;
 		}
 		if(array_key_exists("recordWeight", $data)){
 				
-			if(empty($data["weight"])){
+			if(empty($data["weight"]) OR !(!is_float($data['weight']) OR !is_int($data['weight']))){
 				$foodname = null;
 				$calories = null;
+				$_SESSION["intFieldsVal"] = "Weight cannot be empty and should be in numbers!";
 				$this->showTodayWithParam($foodname, $calories, $data["weight"], null);
 				return $data;
 			}
-			if(!empty($data["weight"]))
+			if(!empty($data["weight"]) )
 			{
 				if($this->dietService->recordWeight($data["weight"]))
 				{

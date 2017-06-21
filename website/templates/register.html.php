@@ -4,6 +4,14 @@
 <h1>Register</h1>
 <div class="content">
 <form method="post" class="form">
+<div class="validation">
+<?php 	 if (isset($_SESSION["empFieldsVal"])) {
+					echo $_SESSION['empFieldsVal'];
+				}if (isset($_SESSION["intFieldsVal"])) {
+					echo $_SESSION['intFieldsVal'];
+				}?>
+</div>
+
 	<div class="form-group">
 		<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
 		<h2>Personal Details</h2>
@@ -40,7 +48,7 @@
 		<input  type="radio" name="gender" value="female" <?php if(isset($gender)){ if($gender === "female"){ echo "checked";} } ?>> Female
 	</div>
 	<div>
-		<input  type="radio" name="gender" value="male" <?php if(isset($gender)){ if($gender === "male"){ echo "checked";} }?> >Male
+		<input  type="radio" name="gender" value="male" <?php if(isset($gender)){ if($gender === "male"){ echo "checked";} }?> > Male
 	</div>
 	
 	</div>
@@ -76,6 +84,7 @@
 	<input class="form-control" type="text" value="<?php if(isset($goalWeight)){echo  htmlspecialchars($goalWeight); }?>" name="goalWeight" />
 	</div>
 	
+	
 	<div class="form-group">
 	<label>Calories Goal Intake per day:</label>
 	<input class="form-control" type="text" value="<?php if(isset($goalCalories)){echo  htmlspecialchars($goalCalories); }?>" name="goalCalories" />
@@ -84,6 +93,24 @@
 	<input type="submit" class="btn btn-success" value="Register" name="Register" />
 	<a href="/" class="btn btn-danger" name="cancel">Cancel</a>
 </form>
+<script>
+	var rad = document.getElementsByName('Goal');
+	for(var i = 0; i < rad.length; i++) {
+	    rad[i].onclick = function() {
+		    if (this.checked == true)
+		    {
+		    	var inputDate = document.getElementsByName('goalWeight');
+		    	inputDate[0].disabled = this.value == "Maintain Weight";
+		    	if(inputDate[0].disabled){
+		    		inputDate[0].value = "Goal weight is the same as your weight now."; 
+			    }else{
+			    	inputDate[0].value ="";
+				    }
+		    	   
+		    }
+	    };
+	}
+</script>
 <?php 
 	include 'footer.html.php';
 ?>

@@ -38,6 +38,9 @@ $today = date("F j, Y");
         	<td class="tdr"><?php echo $meal["Name"] . " " .$meal["Calories"] ; ?></td>
 			<td>
 				<form method="post" class="todayForm">
+				<?php 	if (isset($_SESSION["intFieldsVal"])) {
+					echo $_SESSION['intFieldsVal'];
+				}?>
 					<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
 					<input type="hidden" value="<?php echo $meal["id"];?>" name="mriD"/>
 					<input class="btn btn-danger" type="submit" value="delete" name="deleteMRecord" />
@@ -104,6 +107,9 @@ $today = date("F j, Y");
 	</form>
 	<?php }else{?>
 	<form method="post" class="loginform">
+	<?php 	if (isset($_SESSION["intFieldsVal"])) {
+					echo $_SESSION['intFieldsVal'];
+				}?>
 		<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
 		<input type="hidden" value="Lunch" name="recordMealType"/>
 		<div class="form-group">
@@ -149,6 +155,9 @@ $today = date("F j, Y");
 	</form>
 	<?php }else{?>
 	<form method="post" class="loginform">
+	<?php 	if (isset($_SESSION["intFieldsVal"])) {
+					echo $_SESSION['intFieldsVal'];
+				}?>
 		<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
 		<input type="hidden" value="Dinner" name="recordMealType"/>
 		<div class="form-group">
@@ -193,6 +202,9 @@ $today = date("F j, Y");
 	</form>
 	<?php }else{?>
 	<form method="post" class="loginform">
+	<?php 	if (isset($_SESSION["intFieldsVal"])) {
+					echo $_SESSION['intFieldsVal'];
+				}?>
 		<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
 		<input type="hidden" value="Snack" name="recordMealType"/>
 		<div class="form-group">
@@ -216,6 +228,9 @@ $today = date("F j, Y");
 	</form>
 	<?php }else{?>
 	<form method="post" class="loginform">
+	<?php 	if (isset($_SESSION["intFieldsVal"])) {
+					echo $_SESSION['intFieldsVal'];
+				}?>
 		<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
 		<div class="form-group">
 			<label>Weight:</label>

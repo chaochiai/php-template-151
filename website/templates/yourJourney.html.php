@@ -6,16 +6,18 @@ $today = date("F j, Y");
 <h1>My Journey</h1>
 <div class="content">
 <h2>Weight Goal Overview</h2>
-
-<?php if(isset($data["weightMaintained"]) OR isset($data["weightGained"]) OR isset($data["weightLostNo"])){ ?>
-  	<?php if(isset($data["weightMaintained"])){ ?>
+<div class="maintain">
+<?php if(isset($weightMaintained) OR isset($weightGained) OR isset($weightLostNo)){ ?>
+  	<?php if(isset($weightMaintained)){ ?>
   		<div>You didn't gain or lose any weight! Keep it up!</div>
-  	<?php } else if(set($data["weightGained"])){?>
-  		<div>You gained Weight! You should lose <?php echo $data["weightGained"]; ?>.</div>
-  	<?php } elseif(set($data["weightLostNo"])){?>
-  		<div>You lost Weight! You should gain <?php echo $data["weightLostNo"]; ?>.</div>
+  	<?php } else if(isset($weightGained)){?>
+  		<div>You gained weight! You should lose <?php echo $weightGained . " kg"; ?>.</div>
+  	<?php } elseif(isset($weightLostNo)){?>
+  		<div>You lost weight! You should gain <?php echo $weightLostNo . " kg"; ?>.</div>
   	<?php }?>
+  	</div>
   	<?php } else{ ?>
+
 <canvas id="monthlyAmountChart" width="400" height="400"></canvas>
 	<script type="text/javascript">
 		var monthlyAmountCtx = document.getElementById("monthlyAmountChart").getContext("2d");
@@ -38,8 +40,8 @@ $today = date("F j, Y");
   	</script>
   	<?php } ?>
  <h2>Weight and Calories History - Last 10 entries</h2>
- <?php if(isset($overviews)){ ?>
-           
+ <?php if(isset($overviews)){
+ 	if($overviews != false){?>     
   <table class="table table-hover">
     <thead>
       <tr>
@@ -57,9 +59,9 @@ $today = date("F j, Y");
       </tr>
       <?php }?>
     </tbody>
-  
-
-<?php } else{echo "No entries have been entered yet.";}?>
+ <?php } else{?>
+	<div class="maintain">No entries have been entered yet.</div>
+<?php }}?> 
 
 <?php 
 	include 'footer.html.php';
