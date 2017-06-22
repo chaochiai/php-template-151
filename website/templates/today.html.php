@@ -40,6 +40,7 @@ $today = date("F j, Y");
 				<form method="post" class="todayForm">
 				<?php 	if (isset($_SESSION["intFieldsVal"])) {
 					echo $_SESSION['intFieldsVal'];
+					unset($_SESSION['intFieldsVal']);
 				}?>
 					<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
 					<input type="hidden" value="<?php echo $meal["id"];?>" name="mriD"/>
@@ -109,6 +110,7 @@ $today = date("F j, Y");
 	<form method="post" class="loginform">
 	<?php 	if (isset($_SESSION["intFieldsVal"])) {
 					echo $_SESSION['intFieldsVal'];
+					unset($_SESSION['intFieldsVal']);
 				}?>
 		<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
 		<input type="hidden" value="Lunch" name="recordMealType"/>
@@ -157,6 +159,7 @@ $today = date("F j, Y");
 	<form method="post" class="loginform">
 	<?php 	if (isset($_SESSION["intFieldsVal"])) {
 					echo $_SESSION['intFieldsVal'];
+					unset($_SESSION['intFieldsVal']);
 				}?>
 		<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
 		<input type="hidden" value="Dinner" name="recordMealType"/>
@@ -204,6 +207,7 @@ $today = date("F j, Y");
 	<form method="post" class="loginform">
 	<?php 	if (isset($_SESSION["intFieldsVal"])) {
 					echo $_SESSION['intFieldsVal'];
+					unset($_SESSION['intFieldsVal']);
 				}?>
 		<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
 		<input type="hidden" value="Snack" name="recordMealType"/>
@@ -230,6 +234,7 @@ $today = date("F j, Y");
 	<form method="post" class="loginform">
 	<?php 	if (isset($_SESSION["intFieldsVal"])) {
 					echo $_SESSION['intFieldsVal'];
+					unset($_SESSION['intFieldsVal']);
 				}?>
 		<input type="hidden" name="csrf" value="<?= $_SESSION["csrf"]; ?>" />
 		<div class="form-group">

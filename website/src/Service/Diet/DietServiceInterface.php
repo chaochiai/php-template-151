@@ -13,4 +13,5 @@ interface DietServiceInterface
 	public function recordWeight($weight);
 	public function showHistory();
 	public function getWeightOverview();
+
 }

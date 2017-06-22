@@ -9,22 +9,41 @@ class AccountPDOService implements AccountServiceInterface
 	{
 		$this->pdo = $pdo;
 	}
-
-	public function EditAccount()
+	
+	public function EditAccount($firstname, $lastname, $username, $email, $gender, $weight, $height, $goal, $goalWeight, $goalCalories)
 	{
-		$username = $_SESSION['username'];
-		$stmt = $this->pdo->prepare("SELECT * FROM User WHERE username=? AND password=?");
-		$stmt->bindValue(1, $username);
-		$stmt->bindValue(2, $password);
-		$stmt->execute();
+		$firstname = htmlspecialchars($firstname);
+		$lastname = htmlspecialchars($lastname);
+		$username = htmlspecialchars($username);
+		$email = htmlspecialchars($email);
+		$gender = htmlspecialchars($gender);
+		$weight = htmlspecialchars($weight);
+		$height = htmlspecialchars($height);
+		$goal = htmlspecialchars($goal);
+		$goalWeight = htmlspecialchars($goalWeight);
+		$goalCalories = htmlspecialchars($goalCalories);
 			
+		$usernameOld = $_SESSION["login"];	
+				
+		$stmt = $this->pdo->prepare("Update User SET firstname = ?, lastname = ?, username = ?, email = ?, gender = ?, currentWeight = ?, height = ?, Goal = ?, goalWeight = ?, caloriesGoalIntake = ? WHERE username = ?");
+		$stmt->bindParam(1, $firstname);
+		$stmt->bindParam(2, $lastname);
+		$stmt->bindParam(3, $username);
+		$stmt->bindParam(4, $email);
+		$stmt->bindParam(5, $gender);
+		$stmt->bindParam(6, $weight);
+		$stmt->bindParam(7, $height);
+		$stmt->bindParam(8, $goal);
+		$stmt->bindParam(9, $goalWeight);
+		$stmt->bindParam(10, $goalCalories);
+		$stmt->bindParam(11, $usernameOld);
+		$stmt->execute();
 		if($stmt->rowCount() == 1){
-			$_SESSION["login"] = $username;
 			return true;
-		} else{
+		}else{
 			return false;
 		}
-
+	
 	}
 	public function ShowPersonalInformation()
 	{
@@ -33,6 +52,7 @@ class AccountPDOService implements AccountServiceInterface
 		$stmt->bindValue(1, $username);
 		$stmt->execute();
 		$result = $stmt->fetch($this->pdo::FETCH_OBJ);
+		$data["id"] = $result->id;
 		$data["firstname"] = $result->firstname;
 		$data["lastname"] = $result->lastname;
 		$data["username"] = $result->username;
@@ -43,6 +63,20 @@ class AccountPDOService implements AccountServiceInterface
 		$data["goal"] = $result->Goal;
 		$data["goalWeight"] = $result->goalWeight;
 		$data["goalCalories"] = $result->caloriesGoalIntake;
+		return $data;
+	}
+	public function getUserData(){
+		$data = $this->ShowPersonalInformation();
+		$userId = $data["id"];
+		$stmt = $this->pdo->prepare("SELECT * FROM Overview WHERE userId=? ORDER BY id DESC LIMIT 1");
+		$stmt->bindValue(1, $userId);
+		$stmt->execute();
+		
+		if($stmt->rowCount() == 1){
+			$result = $stmt->fetch($this->pdo::FETCH_OBJ);
+			$data["weight"] = $result->weight;
+		}
+		$data["Goal"] = $data["goal"];
 		return $data;
 	}
 	public function getUrl($email){

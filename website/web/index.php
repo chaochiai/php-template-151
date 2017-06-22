@@ -91,6 +91,14 @@ switch($requestUrl) {
 			}
 		}
 		break;
+	case "/editAccount":
+		$ctr = $factory->getAccountController();
+		if($_SERVER['REQUEST_METHOD'] === "GET"){
+			$ctr->showEditAccount();
+		} else 	{
+			$ctr->editAccount($_POST);
+		}
+		break;
 	case "/yourJourney":
 		$ctr = $factory->getDietController();
 		if($_SERVER['REQUEST_METHOD'] === "GET"){
@@ -98,8 +106,7 @@ switch($requestUrl) {
 		}
 		break;
 	default:
-		$factory->getIndexController()->homepage();
+		echo "Page not Found";
 		break;
-		echo "Not Found";
 }
 
