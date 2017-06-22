@@ -3,6 +3,12 @@ include 'header.html.php';
 ?>
 <h1>Personal Information</h1>
 <div class="content">
+	<div class="validation">
+	<?php 	 if (isset($_SESSION["errorDeleteAccount"])) {
+						echo $_SESSION['errorDeleteAccount'];
+						unset($_SESSION['errorDeleteAccount']);
+					}?>
+	</div>
 	<h2>Personal Details</h2>
 	  <table class="table table-hover">
 	      <tr>
@@ -50,6 +56,26 @@ include 'header.html.php';
 	        <td><?php if(isset($goalCalories)){echo $goalCalories; }?></td> 	  
 	      </tr>
       </table>
+<div>
+	<a href="/editAccount" class="btn btn-primary" name="edit">Edit</a>
+	<a onclick="confirmDeleteAccount()" class="btn btn-primary" name="delete">Delete</a>
+
+	<form method="post" class="loginform"  id="deleteForm">
+	</form>
+</div>
+<script>
+ 	function confirmDeleteAccount() {
+ 	    var dialog = confirm("Your account and all of your data will be deleted. Do you really want to delete your account?");
+ 	    if (dialog == true) {
+ 			setTimeout("submitForm()");
+ 	    }
+ 	}
+ 
+ 	function submitForm() {	
+ 		var form = document.getElementById("deleteForm");
+ 		form.submit();
+ 	}
+ </script>
 <?php 
 	include 'footer.html.php';
 ?>

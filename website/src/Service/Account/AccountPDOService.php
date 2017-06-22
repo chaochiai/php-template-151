@@ -99,4 +99,37 @@ class AccountPDOService implements AccountServiceInterface
 			return null;
 		}
 	}
+	public function deleteAccount(){
+		$username = $_SESSION ["login"];
+		$stmt = $this->pdo->prepare("SELECT * FROM User WHERE username=?");
+		$stmt->execute ([$username]);
+		
+		if ($stmt->rowCount () == 1)
+		{
+			$userData = $stmt->fetch($this->pdo::FETCH_OBJ);
+			$userId = $userData->id;
+			
+			try {
+				$this->pdo->beginTransaction();
+				
+				$stmt = $this->pdo->prepare("DELETE FROM MealRecord WHERE userId=?");
+				$stmt->execute ([$userId]);
+	
+				$stmt = $this->pdo->prepare("DELETE FROM Overview WHERE userId=?");
+				$stmt->execute ([$userId]);
+					
+				$stmt = $this->pdo->prepare("DELETE FROM User WHERE id=?");
+				$stmt->execute ([$userId]);
+					
+				$this->pdo->commit();
+				return true;
+			}
+			catch (\PDOException $e)
+			{
+				$this->pdo->rollback();
+				$_SESSION["errorDeleteAccount"] = "Internal error with the database transaction! Please try again!". " " .$e;
+				return false;
+			}
+		}
+	}
 }

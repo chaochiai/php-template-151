@@ -10,5 +10,6 @@ interface AccountServiceInterface
 	public function getUrl($email);
 	public function setPoint($timePoint, $userId);
 	public function resetPassword($key, $newPassword);
+	public function deleteAccount();
 
 }

@@ -62,7 +62,8 @@ switch($requestUrl) {
 		if($_SERVER['REQUEST_METHOD'] === "GET"){
 			$ctr->showPersonalInformation();
 		} else 	{
-			$ctr->showEditAccount();
+			$ctr = $factory->getAccountController();
+			$ctr->deleteAccount();
 		}
 		break;
 	
@@ -94,16 +95,11 @@ switch($requestUrl) {
 		$ctr = $factory->getDietController();
 		if($_SERVER['REQUEST_METHOD'] === "GET"){
 			$ctr->showYourJourney();
-		}else 	{
-			
 		}
 		break;
 	default:
-		$matches = [];
-		if(preg_match("|^/hello/(.+)$|", $_SERVER["REQUEST_URI"], $matches)) {
-			$factory->getIndexController()->greet($matches[1]);
-			break;
-		}
+		$factory->getIndexController()->homepage();
+		break;
 		echo "Not Found";
 }
 

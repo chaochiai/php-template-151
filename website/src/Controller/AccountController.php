@@ -49,6 +49,9 @@ class AccountController
 		$_SESSION["csrf"] = bin2hex(random_bytes(50));
 		echo $this->template->render("resetPassword.html.php", $data);
 	}
+	public function showThankYou(){
+		echo $this->template->render("thankYou.html.php");
+	}
 	public function editAccount(array $data) {
 		if(!array_key_exists("username", $data) OR !array_key_exists("password", $data)){
 			$this->showLogIn();
@@ -111,5 +114,15 @@ class AccountController
 			echo "The email is not existing";
 		}
 		
+	}
+	public function deleteAccount(){
+		if($this->accountService->deleteAccount()){
+			if (isset($_SESSION["login"])) {
+				unset($_SESSION['login']);
+			}
+			$this->showThankYou();
+		}else{
+			$this->showPersonalInformation();
+		}
 	}
 }
