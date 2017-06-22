@@ -5,8 +5,44 @@ SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
-/*CREATE DATABASE `app` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `app`;
+
+DROP TABLE IF EXISTS `Meal`;
+CREATE TABLE `Meal` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(255) NOT NULL,
+  `Calories` double DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `MealRecord`;
+CREATE TABLE `MealRecord` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) NOT NULL,
+  `mealId` int(11) NOT NULL,
+  `mealType` enum('Breakfast','Lunch','Dinner','Snack') NOT NULL,
+  `Date` date NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `userId` (`userId`),
+  KEY `mealId` (`mealId`),
+  CONSTRAINT `MealRecord_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `User` (`id`),
+  CONSTRAINT `MealRecord_ibfk_2` FOREIGN KEY (`mealId`) REFERENCES `Meal` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `Overview`;
+CREATE TABLE `Overview` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) NOT NULL,
+  `weight` double NOT NULL,
+  `date` date NOT NULL,
+  `calories` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `userId` (`userId`),
+  CONSTRAINT `Overview_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `User` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 DROP TABLE IF EXISTS `User`;
 CREATE TABLE `User` (
@@ -19,16 +55,13 @@ CREATE TABLE `User` (
   `gender` enum('female','male') NOT NULL,
   `height` double DEFAULT NULL,
   `currentWeight` double DEFAULT NULL,
-  `Goal` enum('Lose Weight'', ''Maintain Weight'', ''Gain Weight') DEFAULT NULL,
+  `Goal` enum('Lose Weight','Maintain Weight','Gain Weight') DEFAULT NULL,
   `goalWeight` double DEFAULT NULL,
   `caloriesGoalIntake` double DEFAULT NULL,
+  `resetPoint` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `User` (`id`, `username`, `email`, `password`, `firstname`, `lastname`, `gender`, `height`, `currentWeight`, `Goal`, `goalWeight`, `caloriesGoalIntake`) VALUES
-(4,	'junhan',	'junhyeokhan.it@gmail.com',	'junhyeokgan',	'Junhyeok',	'Han',	'male',	176,	72,	NULL,	70,	NULL),
-(5,	'chaochiai',	'chantalochiaionline@gmail.com',	'deathnote07',	'Chantal',	'Ochiai',	'female',	157,	58,	NULL,	50,	NULL),
-(6,	'npeter',	'noahpeter0@gmail.com',	'noah',	'Noah',	'Peter',	'male',	180,	73,	NULL,	75,	NULL);
 
--- 2017-06-08 06:26:16
+-- 2017-06-22 06:55:49
